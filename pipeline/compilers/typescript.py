@@ -1,3 +1,5 @@
+import os
+
 from pipeline.compilers import SubProcessCompiler
 from pipeline.conf import settings
 
@@ -15,7 +17,7 @@ class TypeScriptCompiler(SubProcessCompiler):
             settings.TYPE_SCRIPT_BINARY,
             settings.TYPE_SCRIPT_ARGUMENTS,
             infile,
-            "--outFile",
-            outfile,
+            "--outDir",
+            os.path.dirname(outfile),
         )
         return self.execute_command(command)
