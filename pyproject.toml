@@ -88,7 +88,6 @@ ignore = [
     # TODO: trim this as issues are fixed
     "ANN",
     "BLE001",
-    "FLY002",
     "FURB167",
     "ISC004",
     "PIE810",
