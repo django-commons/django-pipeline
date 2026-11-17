@@ -61,9 +61,12 @@ _SOURCEMAP_REWRITE_PATH_RE_STR = r"""
 
 # Implementation of the above regexes, for CSS and JavaScript.
 CSS_REWRITE_PATH_RE = re.compile(
-    f"{_CSS_URL_REWRITE_PATH_RE_STR}|{_SOURCEMAP_REWRITE_PATH_RE_STR}", re.X | re.M
+    f"{_CSS_URL_REWRITE_PATH_RE_STR}|{_SOURCEMAP_REWRITE_PATH_RE_STR}",
+    re.VERBOSE | re.MULTILINE,
 )
-JS_REWRITE_PATH_RE = re.compile(_SOURCEMAP_REWRITE_PATH_RE_STR, re.X | re.M)
+JS_REWRITE_PATH_RE = re.compile(
+    _SOURCEMAP_REWRITE_PATH_RE_STR, re.VERBOSE | re.MULTILINE
+)
 
 
 URL_REPLACER = re.compile(r"""url\(__EMBED__(.+?)(\?\d+)?\)""")
@@ -292,8 +295,7 @@ class Compressor:
             # files, handling rewriting of relative assets in the process.
             return (
                 rewrite_path_re.sub(
-                    lambda m, path=path: _reconstruct(m, path),
-                    self.read_text(path)
+                    lambda m, path=path: _reconstruct(m, path), self.read_text(path)
                 )
                 for path in paths
             )
