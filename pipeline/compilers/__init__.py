@@ -24,7 +24,10 @@ class Compiler:
     def compilers(self):
         return [to_class(compiler) for compiler in settings.COMPILERS]
 
-    def compile(self, paths, compiler_options={}, force=False):
+    def compile(self, paths, compiler_options=None, force=False):
+        if compiler_options is None:
+            compiler_options = {}
+
         def _compile(input_path):
             for compiler in self.compilers:
                 compiler = compiler(verbose=self.verbose, storage=self.storage)

@@ -28,7 +28,10 @@ class Collector:
         for d in dirs:
             self.clear(os.path.join(path, d))
 
-    def collect(self, request=None, files=[]):
+    def collect(self, request=None, files=None):
+        if files is None:
+            files = []
+
         if self.request and self.request is request:
             return
         self.request = request

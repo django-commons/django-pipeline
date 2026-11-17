@@ -108,7 +108,10 @@ class Packager:
             **kwargs,
         )
 
-    def compile(self, paths, compiler_options={}, force=False):
+    def compile(self, paths, compiler_options=None, force=False):
+        if compiler_options is None:
+            compiler_options = {}
+
         paths = self.compiler.compile(
             paths,
             compiler_options=compiler_options,
