@@ -133,7 +133,7 @@ class Compressor:
 
         compressor = self.js_compressor
         if compressor:
-            js = getattr(compressor(verbose=self.verbose), "compress_js")(js)
+            js = compressor(verbose=self.verbose).compress_js(js)
 
         return js
 
@@ -148,7 +148,7 @@ class Compressor:
         )
         compressor = self.css_compressor
         if compressor:
-            css = getattr(compressor(verbose=self.verbose), "compress_css")(css)
+            css = compressor(verbose=self.verbose).compress_css(css)
         if not variant:
             return css
         elif variant == "datauri":
