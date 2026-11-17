@@ -1,8 +1,7 @@
 PackageNotFoundError = None
 DistributionNotFound = None
 try:
-    from importlib.metadata import PackageNotFoundError
-    from importlib.metadata import version as get_version
+    from importlib.metadata import PackageNotFoundError, version as get_version
 except ImportError:
     get_version = None
     PackageNotFoundError = None

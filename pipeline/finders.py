@@ -3,12 +3,11 @@ from os.path import normpath
 
 from django.contrib.staticfiles.finders import (
     AppDirectoriesFinder as DjangoAppDirectoriesFinder,
-)
-from django.contrib.staticfiles.finders import BaseFinder, BaseStorageFinder
-from django.contrib.staticfiles.finders import (
+    BaseFinder,
+    BaseStorageFinder,
     FileSystemFinder as DjangoFileSystemFinder,
+    find,
 )
-from django.contrib.staticfiles.finders import find
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils._os import safe_join
 
