@@ -1,4 +1,5 @@
+"use strict";
 function getName(u) {
-    return "".concat(u.firstName, " ").concat(u.lastName);
+    return `${u.firstName} ${u.lastName}`;
 }
-var userName = getName({ firstName: "Django", lastName: "Pipeline" });
+let userName = getName({ firstName: "Django", lastName: "Pipeline" });
