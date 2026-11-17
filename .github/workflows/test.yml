@@ -6,46 +6,52 @@ permissions:
   contents: read
 
 jobs:
+  envs:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.envs.outputs.matrix }}
+
+    steps:
+    - uses: actions/checkout@v7.0.1
+      with:
+        persist-credentials: false
+
+    - name: List tox environments
+      id: envs
+      shell: python
+      run: |
+        import json, os, re, subprocess
+
+        envs = subprocess.check_output(
+            ["pipx", "run", "tox", "list", "--no-desc", "-d"],
+            text=True,
+        ).split()
+        include = []
+
+        for env in envs:
+            m = re.match(r"py(\d)(\d+)-", env)
+
+            if m:
+                python = f"{m[1]}.{m[2]}"
+            elif env.startswith("pypy3"):
+                python = "pypy-3.12"
+            else:
+                # The docs env uses basepython = python3.9.
+                python = "3.9"
+
+            include.append({"tox-env": env, "python-version": python})
+
+        with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+            f.write(f"matrix={json.dumps({'include': include})}\n")
+
   build:
-    name: build (Python ${{ matrix.python-version }}, Django ${{ matrix.django-version }})
+    name: build (${{ matrix.tox-env }})
+    needs: envs
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
-      matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13', 'pypy-3.10']
-        django-version: ['4.1', '4.2', '5.0', '5.1', '5.2', 'main']
-        exclude:
-          - python-version: '3.9'
-            django-version: '5.0'
-          - python-version: '3.9'
-            django-version: '5.1'
-          - python-version: '3.9'
-            django-version: '5.2'
-          - python-version: '3.9'
-            django-version: 'main'
-          - python-version: 'pypy-3.10'
-            django-version: '4.1'
-          - python-version: 'pypy-3.10'
-            django-version: '4.2'
-          - python-version: 'pypy-3.10'
-            django-version: '5.0'
-          - python-version: 'pypy-3.10'
-            django-version: '5.1'
-          - python-version: 'pypy-3.10'
-            django-version: '5.2'
-          - python-version: 'pypy-3.10'
-            django-version: 'main'
-          - python-version: '3.12'
-            django-version: '4.1'
-          - python-version: '3.13'
-            django-version: '4.1'
-          - python-version: '3.13'
-            django-version: '4.2'
-          - python-version: '3.13'
-            django-version: '5.0'
-          - python-version: '3.13'
-            django-version: '5.1'
+      matrix: ${{ fromJSON(needs.envs.outputs.matrix) }}
 
     steps:
     - uses: actions/checkout@v7.0.1
@@ -61,6 +67,7 @@ jobs:
       uses: actions/setup-python@v7.1.0
       with:
         python-version: ${{ matrix.python-version }}
+        allow-prereleases: true
 
     - name: Set up Node
       uses: actions/setup-node@v7.1.0
@@ -90,9 +97,9 @@ jobs:
 
     - name: Tox tests
       run: |
-        tox -v
+        python -m tox -v -e "$TOX_ENV"
       env:
-        DJANGO: ${{ matrix.django-version }}
+        TOX_ENV: ${{ matrix.tox-env }}
 
     - name: Upload coverage
       if: always()
