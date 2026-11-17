@@ -75,9 +75,29 @@ exclude = ["tests", "tests.tests"]
 [tool.setuptools_scm]
 local_scheme = "dirty-tag"
 
-[tool.black]
+[tool.ruff]
 line-length = 88
-target-version = ["py39"]
+target-version = "py39"
 
-[tool.isort]
-profile = "black"
+[tool.ruff.lint]
+ignore = [
+    # TODO: trim this as issues are fixed
+    "ANN",
+    "B006",
+    "B009",
+    "B023",
+    "BLE001",
+    "C414",
+    "FLY002",
+    "FURB167",
+    "ISC004",
+    "PIE810",
+    "PLW0120",
+    "RUF",
+    "SIM103",
+    "SIM115",
+    "UP032",
+]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true

@@ -1,6 +1,12 @@
 version: 2
 updates:
   - package-ecosystem: "github-actions"
-    directory: "/"
+    directory: /
+    groups:
+      github-actions:
+        patterns:
+          - "*"  # Group all Actions into a single pull request
     schedule:
-      interval: "monthly"
+      interval: weekly
+    cooldown:
+      default-days: 7
