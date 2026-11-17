@@ -87,7 +87,6 @@ target-version = "py39"
 ignore = [
     # TODO: trim this as issues are fixed
     "ANN",
-    "B023",
     "BLE001",
     "C414",
     "FLY002",

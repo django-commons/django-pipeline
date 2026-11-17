@@ -292,7 +292,8 @@ class Compressor:
             # files, handling rewriting of relative assets in the process.
             return (
                 rewrite_path_re.sub(
-                    lambda m: _reconstruct(m, path), self.read_text(path)
+                    lambda m, path=path: _reconstruct(m, path),
+                    self.read_text(path)
                 )
                 for path in paths
             )
