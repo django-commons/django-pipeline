@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from io import StringIO
+from unittest import skipUnless
 
 import django
 from django.contrib.staticfiles import finders
@@ -6,11 +9,14 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import modify_settings, override_settings
+from django.utils.version import get_version_tuple
 
 from pipeline.collector import default_collector
 from pipeline.storage import PipelineStorage
 from tests.tests.test_compiler import DummyCompiler
 from tests.utils import pipeline_settings
+
+DJANGO_VERSION = get_version_tuple(django.__version__)
 
 
 class PipelineNoPathStorage(PipelineStorage):
@@ -89,20 +95,16 @@ class StorageTest(TestCase):
         path = finders.find("nothing.css")
         self.assertIsNone(path)
 
+    @skipUnless(DJANGO_VERSION >= (5, 2), "Only applicable to Django >=5.2")
     @modify_settings(STATICFILES_FINDERS={"append": "pipeline.finders.PipelineFinder"})
     def test_nonexistent_file_pipeline_finder_find_all(self):
-        if django.__version__ < "5.2":
-            self.skipTest("Only applicable to Django 5.2 and up")
-
         path = finders.find("nothing.css", find_all=True)
         self.assertIsNotNone(path)
         self.assertEqual([], path)
 
+    @skipUnless(DJANGO_VERSION < (6, 0), "Only applicable to Django <6.0")
     @modify_settings(STATICFILES_FINDERS={"append": "pipeline.finders.PipelineFinder"})
     def test_nonexistent_file_pipeline_finder_all(self):
-        if django.__version__ < "6.0":
-            self.skipTest("Only applicable to versions of Django before 6.0")
-
         path = finders.find("nothing.css", all=True)
         self.assertIsNotNone(path)
         self.assertEqual([], path)
@@ -136,10 +138,15 @@ class StorageTest(TestCase):
 
     @modify_settings(STATICFILES_FINDERS={"append": "pipeline.finders.ManifestFinder"})
     def test_manifest_finder_finds_all_stylesheet(self):
-        paths = finders.find("screen.css", all=True)
+        if DJANGO_VERSION >= (6, 1):
+            find_kwargs = {"find_all": True}
+        else:
+            find_kwargs = {"all": True}
+
+        paths = finders.find("screen.css", **find_kwargs)
         self.assertIsNotNone(paths)
         self.assertEqual(1, len(paths))
 
-        paths = finders.find("screen.scss", all=True)
+        paths = finders.find("screen.scss", **find_kwargs)
         self.assertIsNotNone(paths)
         self.assertEqual([], paths)
