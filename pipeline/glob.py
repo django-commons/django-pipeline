@@ -13,7 +13,7 @@ def glob(pathname):
     The pattern may contain simple shell-style wildcards a la fnmatch.
 
     """
-    return sorted(list(iglob(pathname)))
+    return sorted(iglob(pathname))
 
 
 def iglob(pathname):
