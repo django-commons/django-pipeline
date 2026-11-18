@@ -48,8 +48,8 @@ class Compiler:
                     )
 
                     return compiler.output_path(input_path, compiler.output_extension)
-            else:
-                return input_path
+
+            return input_path
 
         try:
             import multiprocessing  # noqa: PLC0415
