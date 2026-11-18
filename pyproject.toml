@@ -105,3 +105,11 @@ ignore = [
 
 [tool.ruff.lint.isort]
 combine-as-imports = true
+
+[tool.typos]
+files.extend-exclude = [
+    "AUTHORS",
+]
+
+[tool.typos.default.extend-words]
+styl = "styl"

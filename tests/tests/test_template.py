@@ -14,9 +14,9 @@ class JinjaTest(TestCase):
         )
 
     def test_no_package(self):
-        template = self.env.from_string("""{% stylesheet "unknow" %}""")
+        template = self.env.from_string("""{% stylesheet "unknown" %}""")
         self.assertEqual("", template.render())
-        template = self.env.from_string("""{% javascript "unknow" %}""")
+        template = self.env.from_string("""{% javascript "unknown" %}""")
         self.assertEqual("", template.render())
 
     def test_package_css(self):
@@ -71,7 +71,7 @@ class DjangoTest(TestCase):
 
     def test_compressed_empty(self):
         rendered = self.render_template(
-            """{% load pipeline %}{% stylesheet "unknow" %}""",
+            """{% load pipeline %}{% stylesheet "unknown" %}""",
         )
         self.assertEqual("", rendered)
 

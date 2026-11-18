@@ -108,4 +108,7 @@ jobs:
       with:
         persist-credentials: false
 
-    - uses: astral-sh/ruff-action@v4.1.0
+    - name: Ruff
+      uses: astral-sh/ruff-action@v4.1.0
+    - name: Typos
+      uses: crate-ci/typos@v1.52.2

@@ -72,7 +72,7 @@ Configure Pipeline:
 
 .. code-block:: python
 
-    # The folowing config merges CSS files(main.css, normalize.css)
+    # The following config merges CSS files(main.css, normalize.css)
     # and JavaScript files(app.js, script.js) and compress them using
     # `yuglify` into `css/styles.css` and `js/main.js`
     # NOTE: Pipeline only works when DEBUG is False

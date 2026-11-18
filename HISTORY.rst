@@ -176,7 +176,7 @@ History
 1.6.10
 ======
 
-* Added Django 1.10 compatiblity issues. Thanks to Austin Pua and Silvan Spross.
+* Added Django 1.10 compatibility issues. Thanks to Austin Pua and Silvan Spross.
 * Documentation improvements. Thanks to Chris Streeter.
 
 1.6.9
@@ -193,7 +193,7 @@ History
   to Christian Hammond.
 * Updated the link to readthedocs. Thanks to Corey Farwell.
 * Fixed some log messages to correctly refer to the new PIPELINE settings
-  tructure. Thanks to Alvin Mites.
+  structure. Thanks to Alvin Mites.
 * Changed file outdated checks to use os.path methods directly, avoiding
   potential SuspiciousFileOperation errors which could appear with some django
   storage configurations.
