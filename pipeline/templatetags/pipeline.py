@@ -210,7 +210,7 @@ class JavascriptNode(PipelineMixin, template.Node):
 @register.tag
 def stylesheet(parser, token):
     try:
-        tag_name, name = token.split_contents()
+        _tag_name, name = token.split_contents()
     except ValueError:
         e = (
             "%r requires exactly one argument: the name "
@@ -223,7 +223,7 @@ def stylesheet(parser, token):
 @register.tag
 def javascript(parser, token):
     try:
-        tag_name, name = token.split_contents()
+        _tag_name, name = token.split_contents()
     except ValueError:
         e = (
             "%r requires exactly one argument: the name "

@@ -330,7 +330,7 @@ class Compressor:
 
     def embeddable(self, path, variant):
         """Is the asset embeddable ?"""
-        name, ext = os.path.splitext(path)
+        _name, ext = os.path.splitext(path)
         font = ext in FONT_EXTS
         if not variant:
             return False
@@ -366,7 +366,7 @@ class Compressor:
 
     def mime_type(self, path):
         """Get mime-type from filename"""
-        name, ext = os.path.splitext(path)
+        _name, ext = os.path.splitext(path)
         return MIME_TYPES[ext]
 
     def absolute_path(self, path, start):

@@ -18,7 +18,7 @@ class GlobTest(TestCase):
 
     def mktemp(self, *parts):
         filename = self.normpath(*parts)
-        base, file = os.path.split(filename)
+        base, _file = os.path.split(filename)
         base = os.path.join(self.storage.location, base)
         if not os.path.exists(base):
             os.makedirs(base)
