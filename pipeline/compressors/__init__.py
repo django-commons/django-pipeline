@@ -171,9 +171,7 @@ class Compressor:
             contents = re.sub("'", "\\'", contents)
             name = self.template_name(path, base_path)
             compiled.append(
-                "{}['{}'] = {}('{}');\n".format(
-                    namespace, name, settings.TEMPLATE_FUNC, contents
-                )
+                f"{namespace}['{name}'] = {settings.TEMPLATE_FUNC}('{contents}');\n"
             )
         if settings.TEMPLATE_FUNC == DEFAULT_TEMPLATE_FUNC:
             compiler = TEMPLATE_FUNC
@@ -181,7 +179,7 @@ class Compressor:
             compiler = ""
         return "\n".join(
             [
-                "{namespace} = {namespace} || {{}};".format(namespace=namespace),
+                f"{namespace} = {namespace} || {{}};",
                 compiler,
                 "".join(compiled),
             ]
@@ -200,10 +198,12 @@ class Compressor:
             path = os.path.basename(path)
         if path == base:
             base = os.path.dirname(path)
+
+        base = re.escape(base)
+        ext = re.escape(settings.TEMPLATE_EXT)
+
         name = re.sub(
-            r"^{}[\/\\]?(.*){}$".format(
-                re.escape(base), re.escape(settings.TEMPLATE_EXT)
-            ),
+            rf"^{base}[\/\\]?(.*){ext}$",
             r"\1",
             path,
         )

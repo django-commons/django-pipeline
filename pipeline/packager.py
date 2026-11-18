@@ -90,9 +90,7 @@ class Packager:
             return self.packages[kind][package_name]
         except KeyError:
             raise PackageNotFound(
-                "No corresponding package for {} package name : {}".format(
-                    kind, package_name
-                )
+                f"No corresponding package for {kind} package name : {package_name}"
             )
 
     def individual_url(self, filename):

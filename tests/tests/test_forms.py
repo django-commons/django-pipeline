@@ -71,8 +71,7 @@ class PipelineFormMediaTests(TestCase):
         )
         self.assertEqual(MyMedia.css, media._css)
         expected_regex = [
-            r'<link href="{}"( type="text/css")? media="all" '
-            'rel="stylesheet"( /)?>'.format(path)
+            f'<link href="{path}"( type="text/css")? media="all" rel="stylesheet"( /)?>'
             for path in (
                 "/static/extra1.css",
                 "/static/extra2.css",
@@ -116,8 +115,7 @@ class PipelineFormMediaTests(TestCase):
         self.assertEqual(MyMedia.css, media._css)
 
         expected_regex = [
-            '<link href="{}"( type="text/css")? media="all" '
-            'rel="stylesheet"( /)?>'.format(path)
+            f'<link href="{path}"( type="text/css")? media="all" rel="stylesheet"( /)?>'
             for path in (
                 "/static/extra1.css",
                 "/static/extra2.css",
