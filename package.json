@@ -11,8 +11,8 @@
     "url": "git://github.com/django-commons/django-pipeline.git"
   },
   "dependencies": {
-    "babel-cli": "latest",
-    "babel-preset-es2015": "latest",
+    "@babel/cli": "^8",
+    "@babel/preset-env": "^8",
     "coffeescript": "latest",
     "less": "latest",
     "livescript": "latest",

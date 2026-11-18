@@ -162,7 +162,7 @@ if HAS_NODE:
             "COFFEE_SCRIPT_ARGUMENTS": ["--no-header"],
             "LESS_BINARY": node_exe_path("lessc"),
             "BABEL_BINARY": node_exe_path("babel"),
-            "BABEL_ARGUMENTS": ["--presets", "es2015"],
+            "BABEL_ARGUMENTS": ["--config-file", local_path("babel.config.json")],
             "STYLUS_BINARY": node_exe_path("stylus"),
             "LIVE_SCRIPT_BINARY": node_exe_path("lsc"),
             "LIVE_SCRIPT_ARGUMENTS": ["--no-header"],
