@@ -491,7 +491,10 @@ class CompressorTest(TestCase):
     @skipIf(sys.platform.startswith("win"), "requires posix platform")
     def test_compressor_subprocess_unicode(self):
         path = os.path.dirname(os.path.dirname(__file__))
-        content = open(path + "/assets/css/unicode.css", encoding="utf-8").read()
+
+        with open(path + "/assets/css/unicode.css", encoding="utf-8") as f:
+            content = f.read()
+
         output = SubProcessCompressor(False).execute_command(("cat",), content)
         self.assertEqual(
             """.some_class {
