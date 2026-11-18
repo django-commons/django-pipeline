@@ -89,7 +89,6 @@ ignore = [
     "ANN",
     "BLE001",
     "ISC004",
-    "RUF010",
     "RUF012",
     "RUF059",
     "SIM103",

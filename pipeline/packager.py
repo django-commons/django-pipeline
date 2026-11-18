@@ -171,7 +171,7 @@ class Packager:
             for short_path, storage in finder.list(""):
                 if short_path == path:
                     if self.verbose:
-                        print(f"Found storage: {str(self.storage)}")
+                        print(f"Found storage: {self.storage!s}")
                     return storage
         return None
 
