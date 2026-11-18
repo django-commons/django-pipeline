@@ -22,7 +22,7 @@ class PipelineMixin:
         if dry_run:
             return
 
-        from pipeline.packager import Packager  # noqa: PLC0415
+        from pipeline.packager import Packager
 
         packager = Packager(storage=self)
         for package_name in packager.packages["css"]:

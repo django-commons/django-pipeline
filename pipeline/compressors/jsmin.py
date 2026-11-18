@@ -8,6 +8,6 @@ class JSMinCompressor(CompressorBase):
     """
 
     def compress_js(self, js):
-        from jsmin import jsmin  # noqa: PLC0415
+        from jsmin import jsmin
 
         return jsmin(js)

@@ -1,13 +1,8 @@
 import base64
 import os
 import sys
-
-try:
-    from unittest.mock import patch
-except ImportError:
-    from unittest.mock import patch  # noqa
-
 from unittest import skipIf, skipUnless
+from unittest.mock import patch
 
 from django.conf import settings
 from django.test import TestCase
@@ -46,14 +41,14 @@ class CompressorTest(TestCase):
             [_("pipeline/css/first.css"), _("pipeline/css/second.css")],
             "css/screen.css",
         )
-        expected = """.concat {\n  display: none;\n}\n\n.concatenate {\n  display: block;\n}\n"""  # noqa
+        expected = """.concat {\n  display: none;\n}\n\n.concatenate {\n  display: block;\n}\n"""
         self.assertEqual(expected, css)
 
     def test_concatenate(self):
         js = self.compressor.concatenate(
             [_("pipeline/js/first.js"), _("pipeline/js/second.js")]
         )
-        expected = """(function() {\n  window.concat = function() {\n    console.log(arguments);\n  }\n}()) // No semicolon\n\n;(function() {\n  window.cat = function() {\n    console.log("hello world");\n  }\n}());\n"""  # noqa
+        expected = """(function() {\n  window.concat = function() {\n    console.log(arguments);\n  }\n}()) // No semicolon\n\n;(function() {\n  window.cat = function() {\n    console.log("hello world");\n  }\n}());\n"""
         self.assertEqual(expected, js)
 
     @patch.object(base64, "b64encode")
@@ -104,7 +99,7 @@ class CompressorTest(TestCase):
         name = self.compressor.template_name("templates/photo_edit.jst", "")
         self.assertEqual(name, "photo_edit")
         name = self.compressor.template_name(
-            r"templates\photo\detail.jst",  # noqa
+            r"templates\photo\detail.jst",
             "templates\\",
         )
         self.assertEqual(name, "photo_detail")
@@ -116,7 +111,7 @@ class CompressorTest(TestCase):
         name = self.compressor.template_name("templates/photo_edit.jst", "")
         self.assertEqual(name, "photo_edit")
         name = self.compressor.template_name(
-            r"templates\photo\detail.jst",  # noqa
+            r"templates\photo\detail.jst",
             "templates\\",
         )
         self.assertEqual(name, "photo/detail")
@@ -127,7 +122,7 @@ class CompressorTest(TestCase):
         )
         self.assertEqual(
             templates,
-            """window.JST = window.JST || {};\n%s\nwindow.JST[\'list\'] = template(\'<div class="photo">\\n <img src="<%%= src %%>" />\\n <div class="caption">\\n  <%%= caption %%>\\n </div>\\n</div>\');\n"""  # noqa
+            """window.JST = window.JST || {};\n%s\nwindow.JST[\'list\'] = template(\'<div class="photo">\\n <img src="<%%= src %%>" />\\n <div class="caption">\\n  <%%= caption %%>\\n </div>\\n</div>\');\n"""
             % TEMPLATE_FUNC,
         )
         templates = self.compressor.compile_templates(
@@ -138,7 +133,7 @@ class CompressorTest(TestCase):
         )
         self.assertEqual(
             templates,
-            """window.JST = window.JST || {};\n%s\nwindow.JST[\'video_detail\'] = template(\'<div class="video">\\n <video src="<%%= src %%>" />\\n <div class="caption">\\n  <%%= description %%>\\n </div>\\n</div>\');\nwindow.JST[\'photo_detail\'] = template(\'<div class="photo">\\n <img src="<%%= src %%>" />\\n <div class="caption">\\n  <%%= caption %%> by <%%= author %%>\\n </div>\\n</div>\');\n"""  # noqa
+            """window.JST = window.JST || {};\n%s\nwindow.JST[\'video_detail\'] = template(\'<div class="video">\\n <video src="<%%= src %%>" />\\n <div class="caption">\\n  <%%= description %%>\\n </div>\\n</div>\');\nwindow.JST[\'photo_detail\'] = template(\'<div class="photo">\\n <img src="<%%= src %%>" />\\n <div class="caption">\\n  <%%= caption %%> by <%%= author %%>\\n </div>\\n</div>\');\n"""
             % TEMPLATE_FUNC,
         )
 
@@ -207,7 +202,7 @@ class CompressorTest(TestCase):
   background-image: url(#image-gradient);
 }
 @font-face{src:url(../pipeline/fonts/pipeline.eot);src:url(../pipeline/fonts/pipeline.eot?#iefix) format('embedded-opentype'),url(../pipeline/fonts/pipeline.woff) format('woff'),url(../pipeline/fonts/pipeline.ttf) format('truetype');}
-""",  # noqa
+""",
             output,
         )
 
@@ -228,7 +223,7 @@ class CompressorTest(TestCase):
 .data-url-quoted {
   background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20%20width%3D%2212px%22%20height%3D%2214px%22%20viewBox%3D%220%200%2012%2014%22%20style%3D%22enable-background%3Anew%200%200%2012%2014%3B%22%20xml%3Aspace%3D%22preserve%22%3E%3Cpath%20d%3D%22M11%2C6V5c0-2.762-2.239-5-5-5S1%2C2.238%2C1%2C5v1H0v8h12V6H11z%20M6.5%2C9.847V12h-1V9.847C5.207%2C9.673%2C5%2C9.366%2C5%2C9%20c0-0.553%2C0.448-1%2C1-1s1%2C0.447%2C1%2C1C7%2C9.366%2C6.793%2C9.673%2C6.5%2C9.847z%20M9%2C6H3V5c0-1.657%2C1.343-3%2C3-3s3%2C1.343%2C3%2C3V6z%22%2F%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3C%2Fsvg%3E');
 }
-""",  # noqa
+""",
             output,
         )
 
@@ -459,7 +454,7 @@ class CompressorTest(TestCase):
   background-image: url(#image-gradient);
 }
 @font-face{src:url(../pipeline/fonts/pipeline.eot);src:url(../pipeline/fonts/pipeline.eot?#iefix) format('embedded-opentype'),url(../pipeline/fonts/pipeline.woff) format('woff'),url(../pipeline/fonts/pipeline.ttf) format('truetype');}
-""",  # noqa
+""",
             output,
         )
 
@@ -484,7 +479,7 @@ class CompressorTest(TestCase):
 .data-url-quoted {
   background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20%20width%3D%2212px%22%20height%3D%2214px%22%20viewBox%3D%220%200%2012%2014%22%20style%3D%22enable-background%3Anew%200%200%2012%2014%3B%22%20xml%3Aspace%3D%22preserve%22%3E%3Cpath%20d%3D%22M11%2C6V5c0-2.762-2.239-5-5-5S1%2C2.238%2C1%2C5v1H0v8h12V6H11z%20M6.5%2C9.847V12h-1V9.847C5.207%2C9.673%2C5%2C9.366%2C5%2C9%20c0-0.553%2C0.448-1%2C1-1s1%2C0.447%2C1%2C1C7%2C9.366%2C6.793%2C9.673%2C6.5%2C9.847z%20M9%2C6H3V5c0-1.657%2C1.343-3%2C3-3s3%2C1.343%2C3%2C3V6z%22%2F%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3C%2Fsvg%3E');
 }
-""",  # noqa
+""",
             output,
         )
 
