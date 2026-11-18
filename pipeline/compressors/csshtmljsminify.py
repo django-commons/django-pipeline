@@ -1,3 +1,6 @@
+from contextlib import redirect_stdout
+from io import StringIO
+
 from pipeline.compressors import CompressorBase
 
 
@@ -15,4 +18,7 @@ class CssHtmlJsMinifyCompressor(CompressorBase):
     def compress_js(self, js):
         from css_html_js_minify import js_minify
 
-        return js_minify(js)
+        # This library always prints out an annoying warning about not supporting modern
+        # JavaScript. Suppress that.
+        with redirect_stdout(StringIO()):
+            return js_minify(js)
