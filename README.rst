@@ -1,28 +1,26 @@
 Pipeline
 ========
 
-.. image:: https://jazzband.co/static/img/badge.svg
-    :alt: Jazzband
-    :target: https://jazzband.co/
+|build-status| |coverage| |docs|
 
-.. image:: https://github.com/jazzband/django-pipeline/workflows/Test/badge.svg
-   :target: https://github.com/jazzband/django-pipeline/actions
-   :alt: GitHub Actions
+.. |build-status] image:: https://github.com/django-commons/django-pipeline/workflows/Test/badge.svg
+   :target: https://github.com/django-commons/django-pipeline/actions
+   :alt: Build status
 
-.. image:: https://codecov.io/gh/jazzband/django-pipeline/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/jazzband/django-pipeline
-   :alt: Coverage
+.. |coverage| image:: https://codecov.io/gh/django-commons/django-pipeline/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/django-commons/django-pipeline
+   :alt: Test coverage status
 
-.. image:: https://readthedocs.org/projects/django-pipeline/badge/?version=latest
-    :alt: Documentation Status
+.. |docs| image:: https://app.readthedocs.org/projects/django-pipeline/badge/?version=latest
     :target: https://django-pipeline.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 
 Pipeline is an asset packaging library for Django, providing both CSS and
 JavaScript concatenation and compression, built-in JavaScript template support,
 and optional data-URI image and font embedding.
 
-.. image:: https://github.com/jazzband/django-pipeline/raw/master/img/django-pipeline.svg
+.. image:: https://github.com/django-commons/django-pipeline/raw/master/img/django-pipeline.svg
    :alt: Django Pipeline Overview
 
 
@@ -134,10 +132,10 @@ https://django-pipeline.readthedocs.io
 
 Issues
 ------
-You can report bugs and discuss features on the `issues page <https://github.com/jazzband/django-pipeline/issues>`_.
+You can report bugs and discuss features on the `issues page <https://github.com/django-commons/django-pipeline/issues>`_.
 
 
 Changelog
 ---------
 
-See `HISTORY.rst <https://github.com/jazzband/django-pipeline/blob/master/HISTORY.rst>`_.
+See `HISTORY.rst <https://github.com/django-commons/django-pipeline/blob/master/HISTORY.rst>`_.

@@ -61,10 +61,10 @@ testing = [
 ]
 
 [project.urls]
-homepage = "https://github.com/jazzband/django-pipeline/"
+homepage = "https://github.com/django-commons/django-pipeline/"
 documentation = "https://django-pipeline.readthedocs.io/"
-repository = "https://github.com/jazzband/django-pipeline"
-changelog = "https://github.com/jazzband/django-pipeline/blob/master/HISTORY.rst"
+repository = "https://github.com/django-commons/django-pipeline"
+changelog = "https://github.com/django-commons/django-pipeline/blob/master/HISTORY.rst"
 
 [tool.setuptools]
 include-package-data = true

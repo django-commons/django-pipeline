@@ -5,7 +5,7 @@ Pipeline is an asset packaging library for Django, providing
 both CSS and JavaScript concatenation and compression, built-in JavaScript
 template support, and optional data-URI image and font embedding.
 
-You can report bugs and discuss features on the `issues page <https://github.com/jazzband/django-pipeline/issues>`_.
+You can report bugs and discuss features on the `issues page <https://github.com/django-commons/django-pipeline/issues>`_.
 
 You can discuss features or ask questions on the IRC channel on freenode : `#django-pipeline <irc://irc.freenode.net/django-pipeline>`_
 
