@@ -3,7 +3,7 @@ Pipeline
 
 |build-status| |coverage| |docs|
 
-.. |build-status] image:: https://github.com/django-commons/django-pipeline/workflows/Test/badge.svg
+.. |build-status| image:: https://github.com/django-commons/django-pipeline/workflows/Test/badge.svg
    :target: https://github.com/django-commons/django-pipeline/actions
    :alt: Build status
 
@@ -12,8 +12,8 @@ Pipeline
    :alt: Test coverage status
 
 .. |docs| image:: https://app.readthedocs.org/projects/django-pipeline/badge/?version=latest
-    :target: https://django-pipeline.readthedocs.io/en/latest/?badge=latest
-    :alt: Documentation Status
+   :target: https://django-pipeline.readthedocs.io/en/latest
+   :alt: Documentation Status
 
 
 Pipeline is an asset packaging library for Django, providing both CSS and
