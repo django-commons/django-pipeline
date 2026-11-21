@@ -106,7 +106,7 @@ jobs:
       uses: codecov/codecov-action@v7.1.1
       with:
         name: Python ${{ matrix.python-version }}
-        token: ${{ secret.CODECOV_TOKEN }}
+        token: ${{ secrets.CODECOV_TOKEN }}
 
   lint:
     runs-on: ubuntu-latest
