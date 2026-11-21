@@ -17,6 +17,4 @@ class LessCompiler(SubProcessCompiler):
             settings.LESS_ARGUMENTS,
             infile,
         )
-        return self.execute_command(
-            command, cwd=dirname(infile), stdout_captured=outfile
-        )
+        return self.execute_command(command, cwd=dirname(infile), stdout_captured=outfile)

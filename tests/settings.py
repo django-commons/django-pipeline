@@ -7,9 +7,7 @@ def local_path(path):
     return os.path.join(os.path.dirname(__file__), path)
 
 
-DATABASES = {
-    "default": {"ENGINE": "django.db.backends.sqlite3", "TEST_NAME": ":memory:"}
-}
+DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "TEST_NAME": ":memory:"}}
 
 DEBUG = False
 

@@ -80,7 +80,7 @@ exclude = ["tests", "tests.tests"]
 local_scheme = "dirty-tag"
 
 [tool.ruff]
-line-length = 88
+line-length = 90
 target-version = "py39"
 
 [tool.ruff.lint]

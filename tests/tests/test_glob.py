@@ -55,14 +55,10 @@ class GlobTest(TestCase):
         self.assertSequenceEqual(self.glob("aab"), [self.normpath("aab")])
 
     def test_glob_one_directory(self):
-        self.assertSequenceEqual(
-            self.glob("a*"), map(self.normpath, ["a", "aab", "aaa"])
-        )
+        self.assertSequenceEqual(self.glob("a*"), map(self.normpath, ["a", "aab", "aaa"]))
         self.assertSequenceEqual(self.glob("*a"), map(self.normpath, ["a", "aaa"]))
         self.assertSequenceEqual(self.glob("aa?"), map(self.normpath, ["aaa", "aab"]))
-        self.assertSequenceEqual(
-            self.glob("aa[ab]"), map(self.normpath, ["aaa", "aab"])
-        )
+        self.assertSequenceEqual(self.glob("aa[ab]"), map(self.normpath, ["aaa", "aab"]))
         self.assertSequenceEqual(self.glob("*q"), [])
 
     def test_glob_nested_directory(self):

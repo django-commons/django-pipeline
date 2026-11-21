@@ -109,9 +109,7 @@ class StorageTest(TestCase):
         self.assertIsNotNone(path)
         self.assertEqual([], path)
 
-    @modify_settings(
-        STATICFILES_FINDERS={"append": "pipeline.finders.CachedFileFinder"}
-    )
+    @modify_settings(STATICFILES_FINDERS={"append": "pipeline.finders.CachedFileFinder"})
     def test_nonexistent_file_cached_finder(self):
         path = finders.find("nothing.css")
         self.assertIsNone(path)
@@ -121,9 +119,7 @@ class StorageTest(TestCase):
         path = finders.find("app.css.map")
         self.assertIsNone(path)
 
-    @modify_settings(
-        STATICFILES_FINDERS={"append": "pipeline.finders.CachedFileFinder"}
-    )
+    @modify_settings(STATICFILES_FINDERS={"append": "pipeline.finders.CachedFileFinder"})
     def test_nonexistent_double_extension_file_cached_finder(self):
         path = finders.find("app.css.map")
         self.assertIsNone(path)

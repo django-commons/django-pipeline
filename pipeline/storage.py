@@ -116,7 +116,5 @@ class PipelineManifestStorage(PipelineMixin, ManifestStaticFilesStorage):
     pass
 
 
-class NonPackagingPipelineManifestStorage(
-    NonPackagingMixin, ManifestStaticFilesStorage
-):
+class NonPackagingPipelineManifestStorage(NonPackagingMixin, ManifestStaticFilesStorage):
     pass

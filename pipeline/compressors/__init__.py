@@ -64,9 +64,7 @@ CSS_REWRITE_PATH_RE = re.compile(
     f"{_CSS_URL_REWRITE_PATH_RE_STR}|{_SOURCEMAP_REWRITE_PATH_RE_STR}",
     re.VERBOSE | re.MULTILINE,
 )
-JS_REWRITE_PATH_RE = re.compile(
-    _SOURCEMAP_REWRITE_PATH_RE_STR, re.VERBOSE | re.MULTILINE
-)
+JS_REWRITE_PATH_RE = re.compile(_SOURCEMAP_REWRITE_PATH_RE_STR, re.VERBOSE | re.MULTILINE)
 
 
 URL_REPLACER = re.compile(r"""url\(__EMBED__(.+?)(\?\d+)?\)""")
@@ -341,9 +339,7 @@ class Compressor:
             return False
         if ext not in EMBED_EXTS:
             return False
-        if not (
-            font or len(self.encoded_content(path)) < settings.EMBED_MAX_IMAGE_SIZE
-        ):
+        if not (font or len(self.encoded_content(path)) < settings.EMBED_MAX_IMAGE_SIZE):
             return False
         return True
 

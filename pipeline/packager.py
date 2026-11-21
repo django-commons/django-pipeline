@@ -29,9 +29,7 @@ class Package:
 
     @property
     def paths(self):
-        return [
-            path for path in self.sources if not path.endswith(settings.TEMPLATE_EXT)
-        ]
+        return [path for path in self.sources if not path.endswith(settings.TEMPLATE_EXT)]
 
     @property
     def templates(self):

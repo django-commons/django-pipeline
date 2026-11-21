@@ -50,9 +50,7 @@ class CollectorTest(TestCase):
         )
 
         self.assertTrue(
-            default_collector.delete_file(
-                "js/first.js", "pipeline/js/first.js", storage
-            )
+            default_collector.delete_file("js/first.js", "pipeline/js/first.js", storage)
         )
 
     def test_delete_file_with_unmodified(self):

@@ -41,7 +41,9 @@ class CompressorTest(TestCase):
             [_("pipeline/css/first.css"), _("pipeline/css/second.css")],
             "css/screen.css",
         )
-        expected = """.concat {\n  display: none;\n}\n\n.concatenate {\n  display: block;\n}\n"""
+        expected = (
+            """.concat {\n  display: none;\n}\n\n.concatenate {\n  display: block;\n}\n"""
+        )
         self.assertEqual(expected, css)
 
     def test_concatenate(self):
