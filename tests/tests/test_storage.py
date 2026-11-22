@@ -102,7 +102,7 @@ class StorageTest(TestCase):
         self.assertIsNotNone(path)
         self.assertEqual([], path)
 
-    @skipUnless(DJANGO_VERSION < (6, 0), "Only applicable to Django <6.0")
+    @skipUnless(DJANGO_VERSION < (5, 2), "Only applicable to Django <5.2")
     @modify_settings(STATICFILES_FINDERS={"append": "pipeline.finders.PipelineFinder"})
     def test_nonexistent_file_pipeline_finder_all(self):
         path = finders.find("nothing.css", all=True)
@@ -134,7 +134,7 @@ class StorageTest(TestCase):
 
     @modify_settings(STATICFILES_FINDERS={"append": "pipeline.finders.ManifestFinder"})
     def test_manifest_finder_finds_all_stylesheet(self):
-        if DJANGO_VERSION >= (6, 1):
+        if DJANGO_VERSION >= (5, 2):
             find_kwargs = {"find_all": True}
         else:
             find_kwargs = {"all": True}

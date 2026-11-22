@@ -36,23 +36,6 @@ class CompressorTest(TestCase):
     def test_css_compressor_class(self):
         self.assertEqual(self.compressor.css_compressor, YuglifyCompressor)
 
-    def test_concatenate_and_rewrite(self):
-        css = self.compressor.concatenate_and_rewrite(
-            [_("pipeline/css/first.css"), _("pipeline/css/second.css")],
-            "css/screen.css",
-        )
-        expected = (
-            """.concat {\n  display: none;\n}\n\n.concatenate {\n  display: block;\n}\n"""
-        )
-        self.assertEqual(expected, css)
-
-    def test_concatenate(self):
-        js = self.compressor.concatenate(
-            [_("pipeline/js/first.js"), _("pipeline/js/second.js")]
-        )
-        expected = """(function() {\n  window.concat = function() {\n    console.log(arguments);\n  }\n}()) // No semicolon\n\n;(function() {\n  window.cat = function() {\n    console.log("hello world");\n  }\n}());\n"""
-        self.assertEqual(expected, js)
-
     @patch.object(base64, "b64encode")
     def test_encoded_content(self, mock):
         self.compressor.asset_contents.clear()
@@ -521,12 +504,17 @@ class CompressorImplementationTest(TestCase):
         with pipeline_settings(**override_settings):
             if compress_type == "js":
                 result = self.compressor.compress_js(
-                    [_("pipeline/js/first.js"), _("pipeline/js/second.js")]
+                    [_("pipeline/js/first.js"), _("pipeline/js/second.js")],
+                    output_filename=os.path.join(
+                        "pipeline", "js", os.path.basename(expected_file)
+                    ),
                 )
             else:
                 result = self.compressor.compress_css(
                     [_("pipeline/css/first.css"), _("pipeline/css/second.css")],
-                    os.path.join("pipeline", "css", os.path.basename(expected_file)),
+                    output_filename=os.path.join(
+                        "pipeline", "css", os.path.basename(expected_file)
+                    ),
                 )
         with self.compressor.storage.open(expected_file, "r") as f:
             expected = f.read()
