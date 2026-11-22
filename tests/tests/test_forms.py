@@ -2,6 +2,7 @@ from django import get_version as django_version
 from django.forms import Media
 from django.test import TestCase
 
+from pipeline.collector import default_collector
 from pipeline.forms import PipelineFormMedia
 
 from ..utils import pipeline_settings
@@ -42,6 +43,11 @@ from ..utils import pipeline_settings
 )
 class PipelineFormMediaTests(TestCase):
     """Unit tests for pipeline.forms.PipelineFormMedia."""
+
+    def setUp(self) -> None:
+        super().setUp()
+
+        default_collector.collect()
 
     @pipeline_settings(PIPELINE_ENABLED=True)
     def test_css_packages_with_pipeline_enabled(self):
