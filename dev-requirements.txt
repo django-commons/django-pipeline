@@ -1,8 +1,8 @@
 ruff
 tox
 jinja2
-coverage
 pytest
+pytest-cov
 pytest-django
 jsmin==3.0.0
 ply==3.4
