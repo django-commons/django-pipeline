@@ -79,6 +79,10 @@ exclude = ["tests", "tests.tests"]
 [tool.setuptools_scm]
 local_scheme = "dirty-tag"
 
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+pythonpath = ["."]
+
 [tool.ruff]
 line-length = 90
 target-version = "py39"

@@ -2,6 +2,8 @@ ruff
 tox
 jinja2
 coverage
+pytest
+pytest-django
 jsmin==3.0.0
 ply==3.4
 css-html-js-minify==2.5.5
