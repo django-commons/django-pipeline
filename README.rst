@@ -55,17 +55,27 @@ Add Pipeline to your installed apps:
     ]
 
 
-Use Pipeline specified classes for ``STATICFILES_FINDERS`` and ``STATICFILES_STORAGE``:
+Use Pipeline specified classes for ``STATICFILES_FINDERS`` and the ``staticfiles`` storage:
 
 .. code-block:: python
 
-    STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "pipeline.storage.PipelineManifestStorage",
+        },
+    }
 
     STATICFILES_FINDERS = (
         'django.contrib.staticfiles.finders.FileSystemFinder',
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
         'pipeline.finders.PipelineFinder',
     )
+
+On Django 4.0 and 4.1, use ``STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'``
+instead of ``STORAGES``.
 
 
 Configure Pipeline:

@@ -9,22 +9,41 @@ Using with staticfiles
 ======================
 
 Pipeline is providing a storage for `staticfiles app <https://docs.djangoproject.com/en/dev/howto/static-files/>`_,
-to use it configure ``STATICFILES_STORAGE`` like so ::
+to use it configure the ``staticfiles`` storage like so ::
 
-  STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+  STORAGES = {
+      "default": {
+          "BACKEND": "django.core.files.storage.FileSystemStorage",
+      },
+      "staticfiles": {
+          "BACKEND": "pipeline.storage.PipelineStorage",
+      },
+  }
+
+On Django 4.0 and 4.1, set ``STATICFILES_STORAGE`` to the same class instead.
+The examples below only show the ``staticfiles`` entry.
 
 And if you want versioning use ::
 
-  STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
+  STORAGES = {
+      # ...
+      "staticfiles": {"BACKEND": "pipeline.storage.PipelineManifestStorage"},
+  }
 
 There is also non-packing storage available, that allows you to run ``collectstatic`` command
 without packaging your assets. Useful for production when you don't want to run compressor or compilers ::
 
-  STATICFILES_STORAGE = 'pipeline.storage.NonPackagingPipelineStorage'
+  STORAGES = {
+      # ...
+      "staticfiles": {"BACKEND": "pipeline.storage.NonPackagingPipelineStorage"},
+  }
 
 Also available if you want versioning ::
 
-  STATICFILES_STORAGE = 'pipeline.storage.NonPackagingPipelineManifestStorage'
+  STORAGES = {
+      # ...
+      "staticfiles": {"BACKEND": "pipeline.storage.NonPackagingPipelineManifestStorage"},
+  }
 
 If you use staticfiles with ``DEBUG = False`` (i.e. for integration tests
 with `Selenium <http://docs.seleniumhq.org/>`_) you should install the finder
@@ -58,7 +77,10 @@ GZIP compression
 Pipeline can also creates a gzipped version of your collected static files,
 so that you can avoid compressing them on the fly. ::
 
-  STATICFILES_STORAGE = 'your.app.GZIPManifestStorage'
+  STORAGES = {
+      # ...
+      "staticfiles": {"BACKEND": "your.app.GZIPManifestStorage"},
+  }
 
 The storage need to inherit from ``GZIPMixin``: ::
 
@@ -74,7 +96,10 @@ Using with other storages
 
 You can also use your own custom storage, for example, if you want to use S3 for your assets : ::
 
-  STATICFILES_STORAGE = 'your.app.S3PipelineManifestStorage'
+  STORAGES = {
+      # ...
+      "staticfiles": {"BACKEND": "your.app.S3PipelineManifestStorage"},
+  }
 
 Your storage needs to inherit from ``PipelineMixin``. To add cache-busting,
 also inherit from Django's `ManifestFilesMixin <https://docs.djangoproject.com/en/stable/ref/contrib/staticfiles/#manifeststaticfilesstorage>`_. ::

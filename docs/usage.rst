@@ -86,9 +86,12 @@ Example
 Collect static
 ==============
 
-Pipeline integrates with staticfiles, you just need to setup ``STATICFILES_STORAGE`` to ::
+Pipeline integrates with staticfiles, you just need to set the ``staticfiles`` storage to ::
 
-    STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+    STORAGES = {
+        # ...
+        "staticfiles": {"BACKEND": "pipeline.storage.PipelineStorage"},
+    }
 
 Then when you run ``collectstatic`` command, your CSS and your javascripts will be compressed at the same time ::
 
@@ -100,7 +103,10 @@ Cache-busting
 Pipeline uses Django's built-in staticfiles support for cache-busting.
 To set up cache-busting in conjunction with ``collectstatic`` as above, use ::
 
-    STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
+    STORAGES = {
+        # ...
+        "staticfiles": {"BACKEND": "pipeline.storage.PipelineManifestStorage"},
+    }
 
 This will handle cache-busting just as ``staticfiles``'s built-in ``ManifestStaticFilesStorage`` does.
 
