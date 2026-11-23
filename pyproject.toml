@@ -70,6 +70,21 @@ documentation = "https://django-pipeline.readthedocs.io/"
 repository = "https://github.com/django-commons/django-pipeline"
 changelog = "https://github.com/django-commons/django-pipeline/blob/master/HISTORY.rst"
 
+[tool.pyright]
+pythonVersion = "3.9"
+reportAny = "none"
+reportImplicitOverride = "none"
+reportImplicitStringConcatenation = "none"
+reportMissingParameterType = "none"
+reportMissingTypeStubs = "none"
+reportUnknownArgumentType = "none"
+reportUnknownLambdaType = "none"
+reportUnknownMemberType = "none"
+reportUnknownParameterType = "none"
+reportUnknownVariableType = "none"
+reportUnusedCallResult = "none"
+reportUnusedParameter = "none"
+
 [tool.setuptools]
 include-package-data = true
 
