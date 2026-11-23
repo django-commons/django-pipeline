@@ -68,7 +68,7 @@ testing = [
 homepage = "https://github.com/django-commons/django-pipeline/"
 documentation = "https://django-pipeline.readthedocs.io/"
 repository = "https://github.com/django-commons/django-pipeline"
-changelog = "https://github.com/django-commons/django-pipeline/blob/master/HISTORY.rst"
+changelog = "https://django-pipeline.readthedocs.io/en/latest/release-notes.html"
 
 [tool.pyright]
 pythonVersion = "3.9"

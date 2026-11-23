@@ -1,7 +1,10 @@
+:tocdepth: 1
+
 .. :changelog:
 
-History
-=======
+=============
+Release Notes
+=============
 
 4.1.0
 =====

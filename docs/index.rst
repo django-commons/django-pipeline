@@ -25,6 +25,7 @@ Table Of Contents
    storages
    signals
    using
+   release-notes
 
 
 Indices and tables

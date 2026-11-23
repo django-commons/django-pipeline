@@ -148,4 +148,4 @@ You can report bugs and discuss features on the `issues page <https://github.com
 Changelog
 ---------
 
-See `HISTORY.rst <https://github.com/django-commons/django-pipeline/blob/master/HISTORY.rst>`_.
+See the `release notes <https://django-pipeline.readthedocs.io/en/latest/release-notes.html>`_.
