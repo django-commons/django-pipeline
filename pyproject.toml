@@ -56,14 +56,6 @@ dependencies = [
     "wheel",
 ]
 
-[project.optional-dependencies]
-testing = [
-    "coveralls",
-    "tox",
-    "wheel",
-    "django",
-]
-
 [project.urls]
 homepage = "https://github.com/django-commons/django-pipeline/"
 documentation = "https://django-pipeline.readthedocs.io/"
