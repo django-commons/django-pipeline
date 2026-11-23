@@ -156,7 +156,7 @@ class PipelineFormMediaTests(TestCase):
         media = Media(MyMedia)
         self.assertEqual(MyMedia.js, media._js)
 
-        script_tag = '<script type="text/javascript" src="%s"></script>'
+        script_tag = '<script src="%s"></script>'
         self.assertEqual(
             media.render_js(),
             [
@@ -192,7 +192,7 @@ class PipelineFormMediaTests(TestCase):
         media = Media(MyMedia)
         self.assertEqual(MyMedia.js, media._js)
 
-        script_tag = '<script type="text/javascript" src="%s"></script>'
+        script_tag = '<script src="%s"></script>'
         self.assertEqual(
             media.render_js(),
             [
