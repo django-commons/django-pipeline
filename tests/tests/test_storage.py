@@ -18,6 +18,20 @@ from tests.utils import pipeline_settings
 
 DJANGO_VERSION = get_version_tuple(django.__version__)
 
+NO_PATH_STORAGE = "tests.tests.test_storage.PipelineNoPathStorage"
+
+NO_PATH_STORAGE_SETTINGS: dict[str, object]
+
+if DJANGO_VERSION >= (4, 2):
+    NO_PATH_STORAGE_SETTINGS = {
+        "STORAGES": {
+            "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+            "staticfiles": {"BACKEND": NO_PATH_STORAGE},
+        },
+    }
+else:
+    NO_PATH_STORAGE_SETTINGS = {"STATICFILES_STORAGE": NO_PATH_STORAGE}
+
 
 class PipelineNoPathStorage(PipelineStorage):
     """Storage without an implemented path method"""
@@ -72,9 +86,7 @@ class StorageTest(TestCase):
         self.assertTrue(("screen.css", "screen.css", True) in processed_files)
         self.assertTrue(("scripts.js", "scripts.js", True) in processed_files)
 
-    @override_settings(
-        STATICFILES_STORAGE="tests.tests.test_storage.PipelineNoPathStorage",
-    )
+    @override_settings(**NO_PATH_STORAGE_SETTINGS)
     @pipeline_settings(
         JS_COMPRESSOR=None,
         CSS_COMPRESSOR=None,

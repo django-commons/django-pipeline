@@ -2,6 +2,8 @@ import glob
 import os
 import shutil
 
+import django
+
 
 def local_path(path):
     return os.path.join(os.path.dirname(__file__), path)
@@ -40,7 +42,13 @@ MEDIA_URL = "/media/"
 
 MEDIA_ROOT = local_path("media")
 
-STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
+if django.VERSION >= (4, 2):
+    STORAGES = {
+        "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+        "staticfiles": {"BACKEND": "pipeline.storage.PipelineStorage"},
+    }
+else:
+    STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
 STATIC_ROOT = local_path("static/")
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (("pipeline", local_path("assets/")),)
