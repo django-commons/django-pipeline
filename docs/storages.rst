@@ -36,11 +36,8 @@ that allows staticfiles to locate your outputted assets : ::
       'pipeline.finders.PipelineFinder',
   )
 
-If you use ``PipelineCachedStorage`` you may also like the ``CachedFileFinder``,
-which allows you to use integration tests with cached file URLs.
-
-Keep in mind that ``PipelineCachedStorage`` is only available for Django versions
-before 3.1.
+If you use ``PipelineManifestStorage`` you may also like the ``CachedFileFinder``,
+which allows you to use integration tests with hashed file URLs.
 
 If you want to exclude Pipelinable content from your collected static files,
 you can also use Pipeline's ``FileSystemFinder`` and ``AppDirectoriesFinder``.
@@ -61,16 +58,14 @@ GZIP compression
 Pipeline can also creates a gzipped version of your collected static files,
 so that you can avoid compressing them on the fly. ::
 
-  STATICFILES_STORAGE = 'your.app.GZIPCachedStorage'
+  STATICFILES_STORAGE = 'your.app.GZIPManifestStorage'
 
 The storage need to inherit from ``GZIPMixin``: ::
 
-  from django.contrib.staticfiles.storage import CachedStaticFilesStorage
-
-  from pipeline.storage import GZIPMixin
+  from pipeline.storage import GZIPMixin, PipelineManifestStorage
 
 
-  class GZIPCachedStorage(GZIPMixin, CachedStaticFilesStorage):
+  class GZIPManifestStorage(GZIPMixin, PipelineManifestStorage):
       pass
 
 
@@ -81,21 +76,16 @@ You can also use your own custom storage, for example, if you want to use S3 for
 
   STATICFILES_STORAGE = 'your.app.S3PipelineManifestStorage'
 
-Your storage only needs to inherit from ``PipelineMixin`` and ``ManifestFilesMixin`` or ``CachedFilesMixin``.
+Your storage needs to inherit from ``PipelineMixin``. To add cache-busting,
+also inherit from Django's `ManifestFilesMixin <https://docs.djangoproject.com/en/stable/ref/contrib/staticfiles/#manifeststaticfilesstorage>`_. ::
 
-In Django 1.7+ you should use `ManifestFilesMixin <https://docs.djangoproject.com/en/1.7/ref/contrib/staticfiles/#manifeststaticfilesstorage>`_
-unless you don't have access to the local filesystem in which case you should use ``CachedFilesMixin``. ::
-
-  from django.contrib.staticfiles.storage import CachedFilesMixin, ManifestFilesMixin
+  from django.contrib.staticfiles.storage import ManifestFilesMixin
 
   from pipeline.storage import PipelineMixin
 
-  from storages.backends.s3boto import S3BotoStorage
+  from storages.backends.s3 import S3Storage
 
-  class S3PipelineManifestStorage(PipelineMixin, ManifestFilesMixin, S3BotoStorage):
-      pass
-
-  class S3PipelineCachedStorage(PipelineMixin, CachedFilesMixin, S3BotoStorage):
+  class S3PipelineManifestStorage(PipelineMixin, ManifestFilesMixin, S3Storage):
       pass
 
 

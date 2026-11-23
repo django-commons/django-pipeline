@@ -1,18 +1,12 @@
 import gzip
 from io import BytesIO
 
-from django import get_version as django_version
 from django.contrib.staticfiles.storage import (
     ManifestStaticFilesStorage,
     StaticFilesStorage,
 )
 from django.contrib.staticfiles.utils import matches_patterns
 from django.core.files.base import File
-
-_CACHED_STATIC_FILES_STORAGE_AVAILABLE = django_version() < "3.1"
-
-if _CACHED_STATIC_FILES_STORAGE_AVAILABLE:
-    from django.contrib.staticfiles.storage import CachedStaticFilesStorage
 
 
 class PipelineMixin:
@@ -97,19 +91,6 @@ class PipelineStorage(PipelineMixin, StaticFilesStorage):
 
 class NonPackagingPipelineStorage(NonPackagingMixin, PipelineStorage):
     pass
-
-
-if _CACHED_STATIC_FILES_STORAGE_AVAILABLE:
-
-    class PipelineCachedStorage(PipelineMixin, CachedStaticFilesStorage):
-        # Deprecated since Django 2.2
-        # Removed in Django 3.1
-        pass
-
-    class NonPackagingPipelineCachedStorage(NonPackagingMixin, PipelineCachedStorage):
-        # Deprecated since Django 2.2
-        # Removed in Django 3.1
-        pass
 
 
 class PipelineManifestStorage(PipelineMixin, ManifestStaticFilesStorage):
