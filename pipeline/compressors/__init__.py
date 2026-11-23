@@ -14,7 +14,7 @@ from django.utils.encoding import force_str, smart_bytes
 
 from pipeline.conf import settings
 from pipeline.exceptions import CompressorError
-from pipeline.utils import relpath, set_std_streams_blocking, to_class
+from pipeline.utils import set_std_streams_blocking, to_class
 
 # Regex matching url(...), url('...'), and url("...") patterns.
 #
@@ -382,7 +382,7 @@ class Compressor:
         output_path = posixpath.join(
             settings.PIPELINE_ROOT, posixpath.dirname(output_filename)
         )
-        return relpath(absolute_path, output_path)
+        return posixpath.relpath(absolute_path, output_path)
 
     def read_bytes(self, path):
         """Read file content in binary mode"""
