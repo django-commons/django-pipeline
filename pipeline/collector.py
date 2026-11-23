@@ -1,6 +1,5 @@
 import os
 
-import django
 from django.contrib.staticfiles import finders
 from django.contrib.staticfiles.storage import staticfiles_storage
 
@@ -16,9 +15,7 @@ class Collector:
         self.storage = storage
 
     def _get_modified_time(self, storage, prefixed_path):
-        if django.VERSION[:2] >= (1, 10):
-            return storage.get_modified_time(prefixed_path)
-        return storage.modified_time(prefixed_path)
+        return storage.get_modified_time(prefixed_path)
 
     def clear(self, path=""):
         dirs, files = self.storage.listdir(path)
