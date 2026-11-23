@@ -74,7 +74,7 @@ changelog = "https://github.com/django-commons/django-pipeline/blob/master/HISTO
 include-package-data = true
 
 [tool.setuptools.packages.find]
-exclude = ["tests", "tests.tests"]
+include = ["pipeline", "pipeline.*"]
 
 [tool.setuptools_scm]
 local_scheme = "dirty-tag"
