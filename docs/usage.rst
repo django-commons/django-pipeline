@@ -97,8 +97,8 @@ Then when you run ``collectstatic`` command, your CSS and your javascripts will 
 Cache-busting
 -------------
 
-Pipeline 1.2+ no longer provides its own cache-busting URL support (using e.g. the ``PIPELINE_VERSIONING`` setting) but uses
-Django's built-in staticfiles support for this. To set up cache-busting in conjunction with ``collectstatic`` as above, use ::
+Pipeline uses Django's built-in staticfiles support for cache-busting.
+To set up cache-busting in conjunction with ``collectstatic`` as above, use ::
 
     STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
 
@@ -108,11 +108,11 @@ Middleware
 ==========
 
 To enable HTML compression add ``pipeline.middleware.MinifyHTMLMiddleware``,
-to your ``MIDDLEWARE_CLASSES`` settings.
+to your ``MIDDLEWARE`` setting.
 
 Ensure that it comes after any middleware which modifies your HTML, like ``GZipMiddleware`` ::
 
-   MIDDLEWARE_CLASSES = (
+   MIDDLEWARE = (
       'django.middleware.gzip.GZipMiddleware',
       'pipeline.middleware.MinifyHTMLMiddleware',
    )

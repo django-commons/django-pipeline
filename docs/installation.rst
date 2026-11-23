@@ -29,47 +29,10 @@ Installation
 
 
 .. note::
-  You need to use ``Django>=1.11`` to be able to use this version of pipeline.
+  You need to use ``Django>=4.0`` to be able to use this version of pipeline.
 
-.. _GitHub: http://github.com/django-commons/django-pipeline
-.. _PyPI: http://pypi.python.org/pypi/django-pipeline
-
-Upgrading from 1.3
-==================
-
-To upgrade from pipeline 1.3, you will need to follow these steps:
-
-1. Update templates to use the new syntax
-
-    .. code-block:: python
-
-        {# pipeline<1.4 #}
-        {% load compressed %}
-        {% compressed_js 'group' %}
-        {% compressed_css 'group' %}
-
-    .. code-block:: python
-
-        {# pipeline>=1.4 #}
-        {% load pipeline %}
-        {% javascript 'group' %}
-        {% stylesheet 'group' %}
-
-2. Add the ``PipelineFinder`` to ``STATICFILES_FINDERS`` ::
-
-        STATICFILES_FINDERS = (
-            'django.contrib.staticfiles.finders.FileSystemFinder',
-            'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-            'pipeline.finders.PipelineFinder',
-        )
-
-
-Upgrading from 1.5
-==================
-
-To upgrade from pipeline 1.5, you will need update all your ``PIPELINE_*``
-settings and move them under the new ``PIPELINE`` setting.
-See :ref:`ref-configuration`.
+.. _GitHub: https://github.com/django-commons/django-pipeline
+.. _PyPI: https://pypi.org/project/django-pipeline/
 
 Recommendations
 ===============
