@@ -1,6 +1,8 @@
+import multiprocessing
 import os
 import shutil
 import subprocess
+from concurrent import futures
 from tempfile import NamedTemporaryFile
 
 from django.contrib.staticfiles import finders
@@ -51,16 +53,10 @@ class Compiler:
 
             return input_path
 
-        try:
-            import multiprocessing
-            from concurrent import futures
-        except ImportError:
-            return list(map(_compile, paths))
-        else:
-            with futures.ThreadPoolExecutor(
-                max_workers=multiprocessing.cpu_count()
-            ) as executor:
-                return list(executor.map(_compile, paths))
+        with futures.ThreadPoolExecutor(
+            max_workers=multiprocessing.cpu_count()
+        ) as executor:
+            return list(executor.map(_compile, paths))
 
 
 class CompilerBase:
