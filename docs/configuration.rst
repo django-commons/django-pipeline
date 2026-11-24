@@ -121,8 +121,9 @@ Group options
    Extra values to add to the template context when the template tags render
    the HTML tags.
 
-   For CSS, if you do not set ``media``, the ``<link>`` tag uses
-   ``media="all"``.
+   For CSS, if you do not set ``media``, the Django template tags output
+   ``media="all"``. The Jinja2 templates leave the ``media`` attribute out,
+   which browsers treat the same as ``media="all"``.
 
    For JavaScript, the default templates support the ``async`` and ``defer``
    attributes:
