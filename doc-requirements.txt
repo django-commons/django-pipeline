@@ -1,1 +1,4 @@
-sphinx
+shibuya
+Sphinx
+sphinx-autoapi
+sphinx-copybutton
