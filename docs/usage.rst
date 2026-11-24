@@ -47,6 +47,36 @@ with the name “scripts”, you would use the following code to output them all
    {% javascript "scripts" %}
 
 
+Development performance
+-----------------------
+
+When :confval:`PIPELINE_ENABLED` is ``False`` and
+:confval:`PIPELINE_COLLECTOR_ENABLED` is ``True``, the template tags collect
+your static files before they render. Pipeline only does this once per
+request, but it needs the ``request`` variable in the template context to
+tell requests apart. Without it, Pipeline collects the files again for every
+template tag on the page, which can make pages much slower to load.
+
+To avoid this, make sure the ``request`` context processor is turned on.
+Django's default project template already includes it:
+
+.. code-block:: python
+   :caption: settings.py
+
+    TEMPLATES = [
+        {
+            "BACKEND": "django.template.backends.django.DjangoTemplates",
+            ...
+            "OPTIONS": {
+                "context_processors": [
+                    ...
+                    "django.template.context_processors.request",
+                ],
+            },
+        },
+    ]
+
+
 Form Media
 ==========
 
