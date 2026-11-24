@@ -28,8 +28,8 @@ class PipelineFormMediaProperty:
                 The Media class owning the property.
 
             extra_files (object):
-                Files listed in the original ``css`` or ``js`` attribute on
-                the Media class.
+                Files listed in the original ``css`` or ``js`` attribute on the Media
+                class.
         """
         self._get_media_files_func = get_media_files_func
         self._media_cls = media_cls
@@ -68,16 +68,13 @@ class PipelineFormMediaProperty:
         media files definition.
 
         Args:
-            attr_name (unicode):
-                The attribute name.
+            attr_name (unicode): The attribute name.
 
         Returns:
-            object:
-            The attribute value.
+            object: The attribute value.
 
         Raises:
-            AttributeError:
-                An attribute with this name could not be found.
+            AttributeError: An attribute with this name could not be found.
         """
         return getattr(self._media_files, attr_name)
 
@@ -247,7 +244,7 @@ class PipelineFormMedia(metaclass=PipelineFormMediaMetaClass):
     attributes, which will be returned along with the other output/source
     files.
 
-    Example:
+    Example::
 
         from django import forms
         from pipeline.forms import PipelineFormMedia

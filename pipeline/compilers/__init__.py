@@ -107,8 +107,9 @@ class SubProcessCompiler(CompilerBase):
         The only thing weird here is that any incoming command arg item may
         itself be a tuple. This allows compiler implementations to look clean
         while supporting historical string config settings and maintaining
-        backwards compatibility. Thus, we flatten one layer deep.
-         ((env, foocomp), infile, (-arg,)) -> (env, foocomp, infile, -arg)
+        backwards compatibility. Thus, we flatten one layer deep::
+
+            ((env, foocomp), infile, (-arg,)) -> (env, foocomp, infile, -arg)
         """
         argument_list = []
         for flattening_arg in command:
