@@ -20,7 +20,7 @@ Table Of Contents
    usage
    compressors
    compilers
-   templates
+   javascript-templates
    storages
    signals
    using
