@@ -5,309 +5,336 @@ Configuration
 =============
 
 
-Configuration and list of available settings for Pipeline. Pipeline settings are namespaced in a PIPELINE dictionary in your project settings, e.g.: ::
+Configuration and list of available settings for Pipeline. Pipeline settings
+are namespaced in a ``PIPELINE`` dictionary in your project settings, e.g.:
 
-  PIPELINE = {
-      'PIPELINE_ENABLED': True,
-      'JAVASCRIPT': {
-          'stats': {
-              'source_filenames': (
-                'js/jquery.js',
-                'js/d3.js',
-                'js/collections/*.js',
-                'js/application.js',
-              ),
-              'output_filename': 'js/stats.js',
-          }
-      }
-  }
+.. code-block:: python
+   :caption: settings.py
+
+    PIPELINE = {
+        "PIPELINE_ENABLED": True,
+        "JAVASCRIPT": {
+            "stats": {
+                "source_filenames": (
+                    "js/jquery.js",
+                    "js/d3.js",
+                    "js/collections/*.js",
+                    "js/application.js",
+                ),
+                "output_filename": "js/stats.js",
+            }
+        }
+    }
 
 
 Specifying files
 ================
 
 You specify groups of files to be compressed in your settings. You can use glob
-syntax to select multiples files.
+syntax to select multiple files.
 
-The basic syntax for specifying CSS/JavaScript groups files is ::
+The basic syntax for specifying CSS and JavaScript groups is:
 
-  PIPELINE = {
-      'STYLESHEETS': {
-          'colors': {
-              'source_filenames': (
-                'css/core.css',
-                'css/colors/*.css',
-                'css/layers.css'
-              ),
-              'output_filename': 'css/colors.css',
-              'extra_context': {
-                  'media': 'screen,projection',
-              },
-          },
-      },
-      'JAVASCRIPT': {
-          'stats': {
-              'source_filenames': (
-                'js/jquery.js',
-                'js/d3.js',
-                'js/collections/*.js',
-                'js/application.js',
-              ),
-              'output_filename': 'js/stats.js',
-          }
-      }
-  }
+.. code-block:: python
+   :caption: settings.py
+
+    PIPELINE = {
+        "STYLESHEETS": {
+            "colors": {
+                "source_filenames": (
+                    "css/core.css",
+                    "css/colors/*.css",
+                    "css/layers.css"
+                ),
+                "output_filename": "css/colors.css",
+                "extra_context": {
+                    "media": "screen,projection",
+                },
+            },
+        },
+        "JAVASCRIPT": {
+            "stats": {
+                "source_filenames": (
+                    "js/jquery.js",
+                    "js/d3.js",
+                    "js/collections/*.js",
+                    "js/application.js",
+                ),
+                "output_filename": "js/stats.js",
+            }
+        }
+    }
+
+.. confval:: STYLESHEETS
+   :type: ``dict``
+   :default: ``{}``
+
+   The CSS groups. Each key is a group name, and each value is a dictionary
+   of :ref:`group options <ref-group-options>`.
+
+.. confval:: JAVASCRIPT
+   :type: ``dict``
+   :default: ``{}``
+
+   The JavaScript groups. Each key is a group name, and each value is a
+   dictionary of :ref:`group options <ref-group-options>`.
+
+
+.. _ref-group-options:
 
 Group options
 -------------
 
-``source_filenames``
-....................
+.. confval:: source_filenames
+   :type: ``tuple[str, ...]``
 
-**Required**
+   Required.
 
-Is a tuple with the source files to be compressed.
-The files are concatenated in the order specified in the tuple.
+   The source files to be compressed. The files are concatenated in the order
+   given.
 
+.. confval:: output_filename
+   :type: ``str``
 
-``output_filename``
-...................
+   Required.
 
-**Required**
+   The filename of the compressed file.
 
-Is the filename of the (to be) compressed file.
+.. confval:: variant
+   :type: ``str | None``
+   :default: ``None``
 
-``variant``
-...........
+   The variant to apply to your CSS. Use ``"datauri"`` to embed images and
+   fonts in the CSS. See :ref:`ref-embedding`.
 
-**Optional**
+.. confval:: template_name
+   :type: ``str | None``
+   :default: ``None``
 
-Is the variant you want to apply to your CSS. This allow you to embed images
-and fonts in CSS with data-URI.
-Allowed values are : ``None`` and ``datauri``.
+   Name of the template used to render the ``<script>`` tag for a JavaScript
+   group, or the ``<link>`` tag for a CSS group.
 
-Defaults to ``None``.
+.. confval:: extra_context
+   :type: ``dict``
+   :default: ``{}``
 
-``template_name``
-.................
+   Extra values to add to the template context when the template tags render
+   the HTML tags.
 
-**Optional**
+   For CSS, if you do not set ``media``, the ``<link>`` tag uses
+   ``media="all"``.
 
-Name of the template used to render ``<script>`` for js package or ``<link>`` for css package.
+   For JavaScript, the default templates support the ``async`` and ``defer``
+   attributes:
 
-Defaults to ``None``.
+   .. code-block:: python
 
-``extra_context``
-.................
+       "extra_context": {
+           "async": True,
+       },
 
-**Optional**
+.. confval:: manifest
+   :type: ``bool``
+   :default: ``True``
 
-Is a dictionary of values to add to the template context,
-when generating the HTML for the HTML-tags with the templatetags.
+   Whether this group should appear in your cache manifest.
 
-For CSS, if you do not specify ``extra_context``/``media``, the default media in
-the ``<link>`` output will be ``media="all"``.
+.. confval:: compiler_options
+   :type: ``dict``
+   :default: ``{}``
 
-For JS, the default templates support the ``async`` and ``defer`` tag attributes which are controlled via ``extra_context``: ::
-
-  'extra_context': {
-      'async': True,
-  },
-
-``manifest``
-............
-
-**Optional**
-
-Indicate if you want this group to appear in your cache manifest.
-
-Defaults to ``True``.
-
-``compiler_options``
-....................
-
-**Optional**
-
-A dictionary passed to compiler's ``compile_file`` method as kwargs. None of default compilers use it currently. It's to be used by custom compilers in case they need some special parameters.
-
-Defaults to ``{}``.
+   Keyword arguments passed to each compiler's ``compile_file`` method. None
+   of the built-in compilers use it. It is meant for custom compilers that
+   need extra parameters.
 
 
 Other settings
 --------------
 
-``PIPELINE_ENABLED``
-....................
+.. confval:: PIPELINE_ENABLED
+   :type: ``bool``
+   :default: ``not settings.DEBUG``
 
-``True`` if assets should be compressed, ``False`` if not.
+   ``True`` if assets should be compressed, ``False`` if not.
 
-Defaults to ``not settings.DEBUG``.
+   See :djangosetting:`DEBUG`.
 
-``PIPELINE_COLLECTOR_ENABLED``
-..............................
+.. confval:: PIPELINE_COLLECTOR_ENABLED
+   :type: ``bool``
+   :default: ``True``
 
-``True`` if assets should be collected in develop , ``False`` if not.
+   ``True`` if assets should be collected during development, ``False`` if
+   not.
 
-Defaults to ``True``
+   This only applies when :confval:`PIPELINE_ENABLED` is ``False``.
 
-.. note::
+.. confval:: PIPELINE_ROOT
+   :type: ``str``
+   :default: ``settings.STATIC_ROOT``
 
-  This only applies when ``PIPELINE_ENABLED`` is ``False``.
+   The directory where Pipeline looks for compressed output files.
 
-``SHOW_ERRORS_INLINE``
-......................
+   See :djangosetting:`STATIC_ROOT`.
 
-``True`` if errors compiling CSS/JavaScript files should be shown inline at
-the top of the browser window, or ``False`` if they should trigger exceptions
-(the older behavior).
+.. confval:: PIPELINE_URL
+   :type: ``str``
+   :default: ``settings.STATIC_URL``
 
-This only applies when compiling through the ``{% stylesheet %}`` or
-``{% javascript %}`` template tags. It won't impact ``collectstatic``.
+   The URL prefix for Pipeline's output files.
 
-Defaults to ``settings.DEBUG``.
+   See :djangosetting:`STATIC_URL`.
 
-``CSS_COMPRESSOR``
-..................
+.. confval:: SHOW_ERRORS_INLINE
+   :type: ``bool``
+   :default: ``settings.DEBUG``
 
-Compressor class to be applied to CSS files.
+   ``True`` if errors compiling CSS/JavaScript files should be shown inline at
+   the top of the browser window. ``False`` if they should raise exceptions
+   (the older behavior).
 
-If empty or ``None``, CSS files won't be compressed.
+   This only applies when compiling through the ``{% stylesheet %}`` or
+   ``{% javascript %}`` template tags. It does not affect ``collectstatic``.
 
-Defaults to ``'pipeline.compressors.yuglify.YuglifyCompressor'``.
+.. confval:: CSS_COMPRESSOR
+   :type: ``str | None``
+   :default: ``"pipeline.compressors.yuglify.YuglifyCompressor"``
 
-``JS_COMPRESSOR``
-.................
+   Compressor class to apply to CSS files. If empty or ``None``, CSS files are
+   not compressed.
 
-Compressor class to be applied to JavaScript files.
+   See :doc:`compressors`.
 
-If empty or ``None``, JavaScript files won't be compressed.
+.. confval:: JS_COMPRESSOR
+   :type: ``str | None``
+   :default: ``"pipeline.compressors.yuglify.YuglifyCompressor"``
 
-Defaults to ``'pipeline.compressors.yuglify.YuglifyCompressor'``
+   Compressor class to apply to JavaScript files. If empty or ``None``,
+   JavaScript files are not compressed.
 
-.. note::
+   See :doc:`compressors`.
 
-  Please note that in order to use Yuglify compressor, you need to install Yuglify (see :doc:`installation` for more details).
+   .. note::
 
-``TEMPLATE_NAMESPACE``
-......................
+      To use the Yuglify compressor, you need to install Yuglify. See
+      :doc:`installation` for details.
 
-Object name where all of your compiled templates will be added, from within your browser.
-To access them with your own JavaScript namespace, change it to the object of your choice.
+.. confval:: COMPILERS
+   :type: ``list[str]``
+   :default: ``[]``
 
-Defaults to ``"window.JST"``
+   Compiler classes to run on source files before they are compressed.
+
+   See :doc:`compilers`.
+
+.. confval:: MIMETYPES
+   :type: ``tuple[tuple[str, str], ...]``
+
+   Pairs of mimetypes and their file extensions.
+
+   Defaults to:
+
+   .. code-block:: python
+
+       (
+           ("text/coffeescript", ".coffee"),
+           ("text/less", ".less"),
+           ("text/javascript", ".js"),
+           ("text/typescript", ".ts"),
+           ("text/x-sass", ".sass"),
+           ("text/x-scss", ".scss"),
+       )
+
+The settings for JavaScript templates (:confval:`TEMPLATE_FUNC`,
+:confval:`TEMPLATE_NAMESPACE`, :confval:`TEMPLATE_EXT` and
+:confval:`TEMPLATE_SEPARATOR`) are described in :doc:`javascript-templates`.
 
 
-``TEMPLATE_EXT``
-................
-
-The extension for which Pipeline will consider the file as a Javascript template.
-To use a different extension, like ``.mustache``, set this settings to ``.mustache``.
-
-Defaults to ``".jst"``
-
-``TEMPLATE_FUNC``
-.................
-
-JavaScript function that compiles your JavaScript templates.
-Pipeline doesn't bundle a javascript template library, but the default
-setting is to use the
-`underscore <http://documentcloud.github.com/underscore/>`_ template function.
-
-Defaults to ``"_.template"``
-
-``TEMPLATE_SEPARATOR``
-......................
-
-Character chain used by Pipeline as replacement for directory separator.
-
-Defaults to ``"_"``
-
-
-``MIMETYPES``
-.............
-
-Tuple that match file extension with their corresponding mimetypes.
-
-Defaults to ::
-
-  (
-    ('text/coffeescript', '.coffee'),
-    ('text/less', '.less'),
-    ('text/javascript', '.js'),
-    ('text/x-sass', '.sass'),
-    ('text/x-scss', '.scss')
-  )
-
-.. warning::
-  If you support Internet Explorer version 8 and below, you should
-  declare javascript files as ``text/javascript``.
-
+.. _ref-embedding:
 
 Embedding fonts and images
 ==========================
 
-You can embed fonts and images directly in your compiled css, using Data-URI in
-modern browsers.
+You can embed fonts and images directly in your compiled CSS using data URIs.
 
-To do so, setup variant group options to the method you wish to use : ::
+To do so, set the :confval:`variant` group option to ``"datauri"``:
 
-  'STYLESHEETS' = {
-      'master': {
-          'source_filenames': (
-            'css/core.css',
-            'css/button/*.css',
-          ),
-          'output_filename': 'css/master.css',
-          'variant': 'datauri',
-      },
-  }
+.. code-block:: python
+   :caption: settings.py
 
-Images and fonts are embedded following these rules :
+    PIPELINE = {
+        "STYLESHEETS": {
+            "master": {
+                "source_filenames": (
+                    "css/core.css",
+                    "css/button/*.css",
+                ),
+                "output_filename": "css/master.css",
+                "variant": "datauri",
+            },
+        },
+    }
 
-- If asset is under **32 kilobytes** to avoid rendering delay or not rendering
-  at all in Internet Explorer 8.
-- If asset path contains a directory named "**embed**".
+An asset is embedded only if both of these are true:
+
+- Its path contains a directory named ``embed``.
+- It is a font, or its encoded size is under 32,700 bytes.
 
 Overriding embedding settings
 -----------------------------
 
-You can override these rules using the following settings:
+You can change these rules using the following settings:
 
-``EMBED_MAX_IMAGE_SIZE``
-........................
+.. confval:: EMBED_MAX_IMAGE_SIZE
+   :type: ``int``
+   :default: ``32700``
 
-Setting that controls the maximum image size (in bytes) to embed in CSS using Data-URIs.
-Internet Explorer 8 has issues with assets over 32 kilobytes.
+   The maximum encoded size (in bytes) of an image to embed. Fonts are not
+   limited by this setting.
 
-Defaults to ``32700``
+.. confval:: EMBED_PATH
+   :type: ``str``
+   :default: ``r"[/]?embed/"``
 
-``EMBED_PATH``
-..............
-
-Setting the directory that an asset needs to be in so that it is embedded
-
-Defaults to ``r'[/]?embed/'``
+   A regular expression. An asset is only embedded if its path matches.
 
 
 Rewriting CSS urls
 ==================
 
-If the source CSS contains relative URLs (i.e. relative to current file),
-those URLs will be converted to full relative path.
+If the source CSS contains relative URLs (i.e. relative to current file), those
+URLs will be rewritten so they still point to the right files after the CSS is
+combined.
 
 
-Wrapped javascript output
+Wrapped JavaScript output
 =========================
 
-All javascript output is wrapped in an anonymous function : ::
+All JavaScript output is wrapped in an anonymous function:
 
-  (function(){
-    //JS output...
-  })();
+.. code-block:: javascript
 
-This safety wrapper, make it difficult to pollute the global namespace by accident and improve performance.
+    (function() {
+        // JS output...
+    }).call(this);
 
-You can override this behavior by setting ``DISABLE_WRAPPER`` to ``True``. If you want to use your own wrapper, change
-the ``JS_WRAPPER`` setting. For example: ::
+This wrapper makes it harder to pollute the global namespace by accident.
 
-  JS_WRAPPER = "(function(){stuff();%s})();"
+.. confval:: DISABLE_WRAPPER
+   :type: ``bool``
+   :default: ``False``
+
+   Set to ``True`` to turn off the wrapper.
+
+.. confval:: JS_WRAPPER
+   :type: ``str``
+   :default: ``"(function() {\n%s\n}).call(this);"``
+
+   The wrapper to use. ``%s`` is replaced with the JavaScript output. For
+   example:
+
+   .. code-block:: python
+      :caption: settings.py
+
+       PIPELINE = {
+           "JS_WRAPPER": "(function() { stuff(); %s })();",
+       }
