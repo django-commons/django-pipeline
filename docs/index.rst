@@ -23,7 +23,6 @@ Table Of Contents
    javascript-templates
    storages
    signals
-   using
    Code Reference <reference/pipeline/index>
    release-notes
 

@@ -4,18 +4,25 @@
 Installation
 ============
 
-1. Either check out Pipeline from GitHub_ or to pull a release off PyPI_ ::
+1. Install the latest release from PyPI_:
 
-       pip install django-pipeline
+   .. code-block:: console
+
+       $ pip install django-pipeline
 
 
-2. Add 'pipeline' to your ``INSTALLED_APPS`` ::
+2. Add "pipeline" to your ``INSTALLED_APPS``:
+
+   .. code-block:: python
 
        INSTALLED_APPS = (
-           'pipeline',
+           ...
+           "pipeline",
        )
 
-3. Use a pipeline storage for the ``staticfiles`` storage ::
+3. Use a pipeline storage for the ``staticfiles`` storage:
+
+   .. code-block:: python
 
         STORAGES = {
             "default": {
@@ -26,23 +33,23 @@ Installation
             },
         }
 
-   On Django 4.0 and 4.1, use the older setting instead::
+   On Django 4.0 and 4.1, use the older setting instead:
 
-       STATICFILES_STORAGE = 'pipeline.storage.PipelineManifestStorage'
+   .. code-block:: python
 
-4. Add the ``PipelineFinder`` to ``STATICFILES_FINDERS`` ::
+       STATICFILES_STORAGE = "pipeline.storage.PipelineManifestStorage"
+
+4. Add the ``PipelineFinder`` to ``STATICFILES_FINDERS``:
+
+   .. code-block:: python
 
         STATICFILES_FINDERS = (
-            'django.contrib.staticfiles.finders.FileSystemFinder',
-            'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-            'pipeline.finders.PipelineFinder',
+            "django.contrib.staticfiles.finders.FileSystemFinder",
+            "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+            "pipeline.finders.PipelineFinder",
         )
 
 
-.. note::
-  You need to use ``Django>=4.0`` to be able to use this version of pipeline.
-
-.. _GitHub: https://github.com/django-commons/django-pipeline
 .. _PyPI: https://pypi.org/project/django-pipeline/
 
 Recommendations

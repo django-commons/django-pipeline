@@ -1,145 +1,139 @@
 .. _ref-storages:
 
-========
-Storages
-========
-
+================
+Storage backends
+================
 
 Using with staticfiles
 ======================
 
-Pipeline is providing a storage for `staticfiles app <https://docs.djangoproject.com/en/dev/howto/static-files/>`_,
-to use it configure the ``staticfiles`` storage like so ::
+Pipeline provides a Django storage class for the :doc:`staticfiles app
+<django:howto/static-files/index>`. To use it, set the ``staticfiles`` storage
+backend in :djangosetting:`STORAGES`:
 
-  STORAGES = {
-      "default": {
-          "BACKEND": "django.core.files.storage.FileSystemStorage",
-      },
-      "staticfiles": {
-          "BACKEND": "pipeline.storage.PipelineStorage",
-      },
-  }
+.. code-block:: python
+   :caption: settings.py
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "pipeline.storage.PipelineStorage",
+        },
+    }
 
 On Django 4.0 and 4.1, set ``STATICFILES_STORAGE`` to the same class instead.
 The examples below only show the ``staticfiles`` entry.
 
-And if you want versioning use ::
 
-  STORAGES = {
-      # ...
-      "staticfiles": {"BACKEND": "pipeline.storage.PipelineManifestStorage"},
-  }
+Additional storage backends
+---------------------------
 
-There is also non-packing storage available, that allows you to run ``collectstatic`` command
-without packaging your assets. Useful for production when you don't want to run compressor or compilers ::
+Pipeline includes several other storage backends with various behaviors:
 
-  STORAGES = {
-      # ...
-      "staticfiles": {"BACKEND": "pipeline.storage.NonPackagingPipelineStorage"},
-  }
+:py:class:`pipeline.storage.PipelineManifestStorage`
+    This backend behaves like Django's
+    :py:class:`~django.contrib.staticfiles.storage.ManifestStaticFilesStorage`,
+    adding a hash to filenames in order to provide cache-busting.
 
-Also available if you want versioning ::
+:py:class:`pipeline.storage.NonPackagingPipelineStorage`
+    This backend allows you to run :command:`manage.py collectstatic` without
+    packaging your assets.
 
-  STORAGES = {
-      # ...
-      "staticfiles": {"BACKEND": "pipeline.storage.NonPackagingPipelineManifestStorage"},
-  }
+:py:class:`pipeline.storage.NonPackagingPipelineManifestStorage`
+    A backend that adds a hash to filenames but does not package assets.
 
-If you use staticfiles with ``DEBUG = False`` (i.e. for integration tests
-with `Selenium <http://docs.seleniumhq.org/>`_) you should install the finder
-that allows staticfiles to locate your outputted assets : ::
 
-  STATICFILES_FINDERS = (
-      'django.contrib.staticfiles.finders.FileSystemFinder',
-      'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-      'pipeline.finders.PipelineFinder',
-  )
+Finders
+-------
 
-If you use ``PipelineManifestStorage`` you may also like the ``CachedFileFinder``,
-which allows you to use integration tests with hashed file URLs.
+If you use staticfiles with ``DEBUG = False`` (i.e. for integration tests with
+`Selenium <https://www.selenium.dev/>`_) you should install the finder that allows
+staticfiles to locate your outputted assets:
+
+.. code-block:: python
+   :caption: settings.py
+
+    STATICFILES_FINDERS = (
+        "django.contrib.staticfiles.finders.FileSystemFinder",
+        "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+        "pipeline.finders.PipelineFinder",
+    )
+
+If you use :py:class:`~pipeline.storage.PipelineManifestStorage`, you may also
+want to use the :py:class:`~pipeline.finders.CachedFileFinder`, which allows
+you to use integration tests with hashed file URLs.
 
 If you want to exclude Pipelinable content from your collected static files,
-you can also use Pipeline's ``FileSystemFinder`` and ``AppDirectoriesFinder``.
-These finders will also exclude `unwanted` content like READMEs, tests and
-examples, which are particularly useful if you're collecting content from a
-tool like Bower. ::
+you can also use Pipeline's :py:class:`~pipeline.finders.FileSystemFinder` and
+:py:class:`~pipeline.finders.AppDirectoriesFinder`. These finders will also
+exclude unwanted content like READMEs, tests and examples.
 
-  STATICFILES_FINDERS = (
-      'pipeline.finders.FileSystemFinder',
-      'pipeline.finders.AppDirectoriesFinder',
-      'pipeline.finders.CachedFileFinder',
-      'pipeline.finders.PipelineFinder',
-  )
+.. code-block:: python
+   :caption: settings.py
+
+    STATICFILES_FINDERS = (
+        "pipeline.finders.FileSystemFinder",
+        "pipeline.finders.AppDirectoriesFinder",
+        "pipeline.finders.CachedFileFinder",
+        "pipeline.finders.PipelineFinder",
+    )
 
 GZIP compression
 ================
 
-Pipeline can also creates a gzipped version of your collected static files,
-so that you can avoid compressing them on the fly. ::
+Pipeline can also create a gzipped version of your collected static files, so
+that you can avoid compressing them on the fly. To use that, create a new
+storage subclass that mixes in :py:class:`~pipeline.storage.GZIPMixin`:
 
-  STORAGES = {
-      # ...
-      "staticfiles": {"BACKEND": "your.app.GZIPManifestStorage"},
-  }
+.. code-block:: python
+   :caption: app/storage.py
 
-The storage need to inherit from ``GZIPMixin``: ::
+    from pipeline.storage import GZIPMixin, PipelineManifestStorage
 
-  from pipeline.storage import GZIPMixin, PipelineManifestStorage
+    class GZIPManifestStorage(GZIPMixin, PipelineManifestStorage):
+        pass
 
+Then set the storage backend in your :file:`settings.py`:
 
-  class GZIPManifestStorage(GZIPMixin, PipelineManifestStorage):
-      pass
+.. code-block:: python
+   :caption: settings.py
+
+    STORAGES = {
+        ...
+        "staticfiles": {"BACKEND": "app.storage.GZIPManifestStorage"},
+    }
 
 
 Using with other storages
 =========================
 
-You can also use your own custom storage, for example, if you want to use S3 for your assets : ::
-
-  STORAGES = {
-      # ...
-      "staticfiles": {"BACKEND": "your.app.S3PipelineManifestStorage"},
-  }
+You can also use your own custom storage, for example, if you want to use S3
+for your assets.
 
 Your storage needs to inherit from ``PipelineMixin``. To add cache-busting,
-also inherit from Django's `ManifestFilesMixin <https://docs.djangoproject.com/en/stable/ref/contrib/staticfiles/#manifeststaticfilesstorage>`_. ::
+also inherit from Django's
+:py:class:`~django.contrib.staticfiles.storage.ManifestFilesMixin`.
 
-  from django.contrib.staticfiles.storage import ManifestFilesMixin
+.. code-block:: python
+   :caption: app/storage.py
 
-  from pipeline.storage import PipelineMixin
+    from django.contrib.staticfiles.storage import ManifestFilesMixin
+    from pipeline.storage import PipelineMixin
+    from storages.backends.s3 import S3Storage
 
-  from storages.backends.s3 import S3Storage
+    class S3PipelineManifestStorage(PipelineMixin, ManifestFilesMixin, S3Storage):
+        """A storage backend that uses Amazon S3 for assets.
 
-  class S3PipelineManifestStorage(PipelineMixin, ManifestFilesMixin, S3Storage):
-      pass
+        This also mixes in ManifestFilesMixin to provide cache busting.
+        """
+        pass
 
+.. code-block:: python
+   :caption: settings.py
 
-Using Pipeline with Bower
-=========================
-
-`Bower <http://bower.io/>`_ is a `package manager for the web` that allows
-you to easily include frontend components with named versions. Integrating
-Bower with Pipeline is straightforward.
-
-Add your Bower directory to your ``STATICFILES_DIRS`` : ::
-
-  STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(__file__), '..', 'bower_components'),
-  )
-
-Then process the relevant content through Pipeline : ::
-
-  PIPELINE['JAVASCRIPT'] = {
-    'components': {
-      'source_filenames': (
-        'jquery/jquery.js',
-        # you can choose to be specific to reduce your payload
-        'jquery-ui/ui/*.js',
-      ),
-      'output_filename': 'js/components.js',
-    },
-  }
-
-``pipeline.finders.FileSystemFinder`` will help you by excluding much of the
-extra content that Bower includes with its components, such as READMEs, tests
-and examples, while still including images, fonts, CSS fragments etc.
+    STORAGES = {
+        ...
+        "staticfiles": {"BACKEND": "app.storage.S3PipelineManifestStorage"},
+    }
