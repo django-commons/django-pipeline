@@ -6,6 +6,41 @@
 Release Notes
 =============
 
+4.2.0
+=====
+
+* Moved the project from Jazzband to Django Commons.
+
+New features
+------------
+
+* Added support for Python 3.14 and 3.15.
+* Added support for Django 6.0 and 6.1.
+* Revamped the documentation, with a settings reference, a page for each
+  compressor and compiler, and a code reference. The release notes are now
+  part of the documentation.
+
+Bug fixes
+---------
+
+* Fixed :py:class:`~pipeline.storage.NonPackagingPipelineManifestStorage` to
+  include :py:class:`~pipeline.storage.PipelineMixin`. Without this, it behaved
+  identical to Django's
+  :py:class:`~django.contrib.staticfiles.storage.ManifestStaticFilesStorage`.
+* Fixed the TypeScript compiler on TypeScript 7, which removed the
+  ``--outFile`` option
+* Fixed the ``css-html-js-minify`` compressor to suppress a message asking for
+  PRs for modern JavaScript support.
+
+Miscellaneous
+-------------
+
+* Removed ``PipelineCachedStorage`` and ``NonPackagingPipelineCachedStorage``.
+  Django removed ``CachedStaticFilesStorage`` in 3.1, and django-pipeline 4.0
+  dropped support for that version.
+* Removed the internal ``pipeline.utils.relpath`` in favor of
+  ``posixpath.relpath``.
+
 4.1.0
 =====
 * Add support for Python 3.13
